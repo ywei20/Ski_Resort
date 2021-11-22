@@ -19,19 +19,21 @@ public class CmdParser {
         this.numSkiers = 0;
         this.numLifts = DEFAULT_NUMLIFTS;
         this.numRuns = DEFAULT_NUMRUNS;
-        this.serverAddr= null;
+        this.serverAddr = null;
     }
 
     public void parseArguments(String[] args) {
-        for (int i = 0; i < args.length; i+=2) {
+        for (int i = 0; i < args.length; i += 2) {
             String item = args[i];
-            String value = args[i+1];
+            String value = args[i + 1];
 
             if (item.equals("numThreads")) {
                 int val = Integer.valueOf(value);
                 if (val > MAX_NUMTHREADS) {
                     val = MAX_NUMTHREADS;
-                    System.out.println("Warning: parameter numThreads out of bound. Set numThreads to maximum numThreads(" + MAX_NUMTHREADS + ")");
+                    System.out.println(
+                            "Warning: parameter numThreads out of bound. Set numThreads to maximum numThreads("
+                                    + MAX_NUMTHREADS + ")");
                 }
                 this.numThreads = val;
             }
@@ -40,7 +42,9 @@ public class CmdParser {
                 int val = Integer.valueOf(value);
                 if (val > MAX_NUMSKIERS) {
                     val = MAX_NUMSKIERS;
-                    System.out.println("Warning: parameter numSkiers out of bound. Set numSkiers to maximum numSkiers(" + MAX_NUMSKIERS + ")");
+                    System.out.println(
+                            "Warning: parameter numSkiers out of bound. Set numSkiers to maximum numSkiers("
+                                    + MAX_NUMSKIERS + ")");
                 }
                 this.numSkiers = val;
             }
@@ -49,7 +53,9 @@ public class CmdParser {
                 int val = Integer.valueOf(value);
                 if (val > MAX_NUMLIFTS || val < MIN_NUMLIFTS) {
                     val = DEFAULT_NUMLIFTS;
-                    System.out.println("Warning: parameter numLifts out of bound. Set numLifts to default numLifts(" + DEFAULT_NUMLIFTS + ")");
+                    System.out.println(
+                            "Warning: parameter numLifts out of bound. Set numLifts to default numLifts("
+                                    + DEFAULT_NUMLIFTS + ")");
                 }
                 this.numLifts = val;
             }
@@ -58,7 +64,9 @@ public class CmdParser {
                 int val = Integer.valueOf(value);
                 if (val > MAX_NUMRUNS) {
                     val = DEFAULT_NUMRUNS;
-                    System.out.println("Warning: parameter numRuns out of bound. Set numRuns to default numLifts(" + DEFAULT_NUMRUNS + ")");
+                    System.out.println(
+                            "Warning: parameter numRuns out of bound. Set numRuns to default numLifts("
+                                    + DEFAULT_NUMRUNS + ")");
                 }
                 this.numRuns = val;
             }
