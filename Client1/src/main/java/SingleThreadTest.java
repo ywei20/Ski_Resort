@@ -4,12 +4,10 @@ import io.swagger.client.ApiResponse;
 import io.swagger.client.api.SkiersApi;
 import io.swagger.client.model.LiftRide;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class SingleThreadTest {
 
     private static final int NUM_REQUESTS = 10000;
-    private static final int MAX_REQUEST_ATTEMPTS = 5;
 
     public static void main(String[] args) throws InterruptedException {
         CmdParser cmdParser = new CmdParser();
@@ -26,7 +24,6 @@ public class SingleThreadTest {
 
         //Before sending requests take a timestamp:
         long startTime = System.currentTimeMillis();
-//        System.out.println("numSkiers=" + cmdParser.getNumSkiers());
         for (int i = 0; i < NUM_REQUESTS; i++) {
             int randomSkierId = ThreadLocalRandom.current().nextInt(1, cmdParser.getNumSkiers()+1);
             int randomLiftId = ThreadLocalRandom.current().nextInt(1, cmdParser.getNumLifts()+1);
@@ -41,15 +38,8 @@ public class SingleThreadTest {
             ApiResponse<Void> apiResponse;
 
             try {
-                int requestCnt = 0;
-                while (requestCnt <= MAX_REQUEST_ATTEMPTS) {
-                    apiResponse = skiersApi.writeNewLiftRideWithHttpInfo(liftRide, resortId, seasonId, dayId, randomSkierId);
-                    if (apiResponse.getStatusCode() == 200 || apiResponse.getStatusCode() == 201) {
-                        break;
-                    }
-                    requestCnt += 1;
-                }
-                if (requestCnt < MAX_REQUEST_ATTEMPTS + 1) {
+                apiResponse = skiersApi.writeNewLiftRideWithHttpInfo(liftRide, resortId, seasonId, dayId, randomSkierId);
+                if (apiResponse.getStatusCode() == 200 || apiResponse.getStatusCode() == 201) {
                     successReqCnt += 1;
                 } else {
                     failedReqCnt += 1;
@@ -61,6 +51,7 @@ public class SingleThreadTest {
 
         // after sending requests take a timestamp
         long endTime = System.currentTimeMillis();
+
         System.out.println("******* Test Results Sending " + NUM_REQUESTS + " Requests From A Single Thread *******");
         System.out.println("# of successful requests: " + successReqCnt);
         System.out.println("# of failed requests: " + failedReqCnt);
