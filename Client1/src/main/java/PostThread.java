@@ -36,8 +36,8 @@ public class PostThread implements Runnable {
         this.failedReqCnt = failedReqCnt;
         this.latchBefNextPhase = latchBefNextPhase;
         this.latchAllPhase = latchAllPhase;
-//        this.serverAddress = serverAddress + "/Server_war_exploded/";  //for local tomcat server
-        this.serverAddress = serverAddress + "/Server_war/";  // for ec2 tomcat server
+        this.serverAddress = serverAddress + "/Server_war_exploded/";  //for local tomcat server
+//        this.serverAddress = serverAddress + "/Server_war/";  // for ec2 tomcat server
     }
 
     @Override

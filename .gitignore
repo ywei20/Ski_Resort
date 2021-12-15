@@ -29,5 +29,8 @@ hs_err_pid*
 .gradle
 build
 out/
-server.iml
+*.iml
 target/
+
+# results cvs files
+results/
