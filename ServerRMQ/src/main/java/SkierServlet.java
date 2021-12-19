@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -31,7 +32,8 @@ public class SkierServlet extends HttpServlet {
     private static String PassWord = "admin";
     private static int MAX_OBJ = 128;
     private static int MAX_IDLE = 128;
-    private static String QueueName = "post_queue";
+//    private static String QueueName = "skiers_queue";
+    private static String ExchangeName = "lift_exchange";
 
     public static class LiftRide {
         private int time;
@@ -40,7 +42,6 @@ public class SkierServlet extends HttpServlet {
         private int resortID;
         private int seasonID;
         private int dayID;
-
 
         public LiftRide(int time, int liftID, int skierID, int resortID, int seasonID, int dayID) {
             this.time = time;
@@ -162,8 +163,11 @@ public class SkierServlet extends HttpServlet {
                 liftRide.setSkierID(Integer.parseInt(urlParts[7]));
                 String message = gson.toJson(liftRide);
 
-                channel.queueDeclare(QueueName, true, false, false, null);
-                channel.basicPublish("", QueueName, null, message.getBytes(StandardCharsets.UTF_8));
+//                channel.queueDeclare(QueueName, true, false, false, null);
+//                channel.basicPublish("", QueueName, null, message.getBytes(StandardCharsets.UTF_8));
+
+                channel.exchangeDeclare(ExchangeName, BuiltinExchangeType.FANOUT);
+                channel.basicPublish(ExchangeName, "", null, message.getBytes(StandardCharsets.UTF_8));
 
                 response.getWriter().write(gson.toJson(liftRide));
                 response.setStatus(HttpServletResponse.SC_CREATED);
